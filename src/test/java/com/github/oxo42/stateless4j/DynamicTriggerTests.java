@@ -3,8 +3,6 @@ package com.github.oxo42.stateless4j;
 import com.github.oxo42.stateless4j.delegates.Func;
 import com.github.oxo42.stateless4j.delegates.Func2;
 import com.github.oxo42.stateless4j.triggers.TriggerWithParameters1;
-import org.junit.Assert;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -12,7 +10,7 @@ public class DynamicTriggerTests {
 
     @Test
     public void DestinationStateIsDynamic() {
-        StateMachineConfig<State, Trigger> config = new StateMachineConfig<>();
+        StateMachineConfig<State, Trigger, Context> config = new StateMachineConfig<>();
         config.configure(State.A).permitDynamic(Trigger.X, new Func<State>() {
 
             @Override
@@ -21,15 +19,16 @@ public class DynamicTriggerTests {
             }
         });
 
-        StateMachine<State, Trigger> sm = new StateMachine<>(State.A, config);
-        sm.fire(Trigger.X);
+        StateReference<State, Context> reference = new StateReference<>(State.A);
+        StateMachine<State, Trigger, Context> sm = new StateMachine<>(reference, reference, config);
+        sm.fire(Trigger.X, Context.M);
 
-        assertEquals(State.B, sm.getState());
+        assertEquals(State.B, sm.getState(Context.M));
     }
 
     @Test
     public void DestinationStateIsCalculatedBasedOnTriggerParameters() {
-        StateMachineConfig<State, Trigger> config = new StateMachineConfig<>();
+        StateMachineConfig<State, Trigger, Context> config = new StateMachineConfig<>();
         TriggerWithParameters1<Integer, State, Trigger> trigger = config.setTriggerParameters(
                 Trigger.X, Integer.class);
         config.configure(State.A).permitDynamic(trigger, new Func2<Integer, State>() {
@@ -39,9 +38,10 @@ public class DynamicTriggerTests {
             }
         });
 
-        StateMachine<State, Trigger> sm = new StateMachine<>(State.A, config);
-        sm.fire(trigger, 1);
+        StateReference<State, Context> reference = new StateReference<>(State.A);
+        StateMachine<State, Trigger, Context> sm = new StateMachine<>(reference, reference, config);
+        sm.fire(trigger, Context.M, 1);
 
-        assertEquals(State.B, sm.getState());
+        assertEquals(State.B, sm.getState(Context.M));
     }
 }

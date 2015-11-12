@@ -13,31 +13,35 @@ public class NonEnumTests {
     public static final String TriggerX = "TriggerX";
     public static final String TriggerY = "TriggerY";
 
+    public static final Long Context1 = 1000l;
+
     @Test
     public void CanUseReferenceTypeMarkers() {
-        RunSimpleTest(
-                new String[]{StateA, StateB, StateC},
-                new String[]{TriggerX, TriggerY});
+        RunSimpleTest(new String[]{StateA, StateB, StateC},
+                new String[]{TriggerX, TriggerY},
+                new Long[]{Context1});
     }
 
     @Test
     public void CanUseValueTypeMarkers() {
-        RunSimpleTest(State.values(), Trigger.values());
+        RunSimpleTest(State.values(), Trigger.values(), Context.values());
     }
 
-    <S, T> void RunSimpleTest(S[] states, T[] transitions) {
+    <S, T, C> void RunSimpleTest(S[] states, T[] transitions, C[] contexts) {
         S a = states[0];
         S b = states[1];
         T x = transitions[0];
+        C context = contexts[0];
 
-        StateMachineConfig<S, T> config = new StateMachineConfig<>();
+        StateMachineConfig<S, T, C> config = new StateMachineConfig<>();
         config.configure(a)
                 .permit(x, b);
 
-        StateMachine<S, T> sm = new StateMachine<>(a, config);
-        sm.fire(x);
+        StateReference<S, C> reference = new StateReference<>(a);
+        StateMachine<S, T, C> sm = new StateMachine<>(reference, reference, config);
+        sm.fire(x, context);
 
-        assertEquals(b, sm.getState());
+        assertEquals(b, sm.getState(context));
     }
 
 }
