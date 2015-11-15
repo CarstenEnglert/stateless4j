@@ -12,7 +12,7 @@ public class TransitioningTriggerBehaviourTests {
         TransitioningTriggerBehaviour<State, Trigger, Context> transitioning = new TransitioningTriggerBehaviour<>(
                 Trigger.X, State.C, IgnoredTriggerBehaviourTests.returnTrue);
         OutVar<State> destination = new OutVar<>();
-        assertTrue(transitioning.resultsInTransitionFrom(State.B, new Object[0], destination));
+        assertTrue(transitioning.resultsInTransitionFrom(State.B, Context.M, new Object[0], destination));
         assertEquals(State.C, destination.get());
     }
 }

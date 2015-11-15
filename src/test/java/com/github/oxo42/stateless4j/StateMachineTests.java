@@ -1,7 +1,8 @@
 package com.github.oxo42.stateless4j;
 
-import com.github.oxo42.stateless4j.delegates.Action;
-import com.github.oxo42.stateless4j.delegates.FuncBoolean;
+import com.github.oxo42.stateless4j.delegates.Action1;
+import com.github.oxo42.stateless4j.delegates.FuncCondition;
+import com.github.oxo42.stateless4j.transitions.Transition;
 import org.junit.Test;
 
 import java.util.List;
@@ -122,10 +123,10 @@ public class StateMachineTests {
         StateMachineConfig<State, Trigger, Context> config = new StateMachineConfig<>();
 
         config.configure(State.B)
-                .permitIf(Trigger.X, State.A, new FuncBoolean<Context>() {
+                .permitIf(Trigger.X, State.A, new FuncCondition<Context>() {
 
                     @Override
-                    public boolean call(Context context) {
+                    public boolean check(Context context) {
                         return false;
                     }
                 });
@@ -160,10 +161,10 @@ public class StateMachineTests {
         StateMachineConfig<State, Trigger, Context> config = new StateMachineConfig<>();
 
         config.configure(State.B)
-                .onEntry(new Action() {
+                .onEntry(new Action1<Transition<State, Trigger, Context>>() {
 
                     @Override
-                    public void doIt() {
+                    public void doIt(Transition<State, Trigger, Context> t) {
                         setFired();
                     }
                 })
@@ -183,10 +184,10 @@ public class StateMachineTests {
         StateMachineConfig<State, Trigger, Context> config = new StateMachineConfig<>();
 
         config.configure(State.B)
-                .onEntry(new Action() {
+                .onEntry(new Action1<Transition<State, Trigger, Context>>() {
 
                     @Override
-                    public void doIt() {
+                    public void doIt(Transition<State, Trigger, Context> t) {
                         setFired();
                     }
                 })

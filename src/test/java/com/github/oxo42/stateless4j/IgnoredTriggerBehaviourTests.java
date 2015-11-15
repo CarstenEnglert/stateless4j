@@ -1,6 +1,6 @@
 package com.github.oxo42.stateless4j;
 
-import com.github.oxo42.stateless4j.delegates.FuncBoolean;
+import com.github.oxo42.stateless4j.delegates.FuncCondition;
 import com.github.oxo42.stateless4j.triggers.IgnoredTriggerBehaviour;
 import org.junit.Test;
 
@@ -10,18 +10,18 @@ import static org.junit.Assert.assertTrue;
 
 public class IgnoredTriggerBehaviourTests {
 
-    public static final FuncBoolean<Context> returnTrue = new FuncBoolean<Context>() {
+    public static final FuncCondition<Context> returnTrue = new FuncCondition<Context>() {
 
         @Override
-        public boolean call(Context context) {
+        public boolean check(Context context) {
             return true;
         }
     };
 
-    public static final FuncBoolean<Context> returnFalse = new FuncBoolean<Context>() {
+    public static final FuncCondition<Context> returnFalse = new FuncCondition<Context>() {
 
         @Override
-        public boolean call(Context context) {
+        public boolean check(Context context) {
             return false;
         }
     };
@@ -29,7 +29,7 @@ public class IgnoredTriggerBehaviourTests {
     @Test
     public void StateRemainsUnchanged() {
         IgnoredTriggerBehaviour<State, Trigger, Context> ignored = new IgnoredTriggerBehaviour<>(Trigger.X, returnTrue);
-        assertFalse(ignored.resultsInTransitionFrom(State.B, new Object[0], new OutVar<State>()));
+        assertFalse(ignored.resultsInTransitionFrom(State.B, Context.M, new Object[0], new OutVar<State>()));
     }
 
     @Test

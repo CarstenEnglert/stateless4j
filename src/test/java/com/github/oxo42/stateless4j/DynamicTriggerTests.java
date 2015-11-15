@@ -1,7 +1,7 @@
 package com.github.oxo42.stateless4j;
 
-import com.github.oxo42.stateless4j.delegates.Func;
 import com.github.oxo42.stateless4j.delegates.Func2;
+import com.github.oxo42.stateless4j.delegates.Func3;
 import com.github.oxo42.stateless4j.triggers.TriggerWithParameters1;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
@@ -11,10 +11,10 @@ public class DynamicTriggerTests {
     @Test
     public void DestinationStateIsDynamic() {
         StateMachineConfig<State, Trigger, Context> config = new StateMachineConfig<>();
-        config.configure(State.A).permitDynamic(Trigger.X, new Func<State>() {
+        config.configure(State.A).permitDynamic(Trigger.X, new Func2<Context, State>() {
 
             @Override
-            public State call() {
+            public State call(Context context) {
                 return State.B;
             }
         });
@@ -31,9 +31,9 @@ public class DynamicTriggerTests {
         StateMachineConfig<State, Trigger, Context> config = new StateMachineConfig<>();
         TriggerWithParameters1<Integer, State, Trigger> trigger = config.setTriggerParameters(
                 Trigger.X, Integer.class);
-        config.configure(State.A).permitDynamic(trigger, new Func2<Integer, State>() {
+        config.configure(State.A).permitDynamic(trigger, new Func3<Integer, Context, State>() {
             @Override
-            public State call(Integer i) {
+            public State call(Integer i, Context c) {
                 return i == 1 ? State.B : State.C;
             }
         });

@@ -11,6 +11,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * The configuration of a single state in a StateMachineConfig.
+ * This includes allowed triggers (with their guard functions) and defined entry/exit actions.
+ *
+ * @param <S> The type used to represent the states
+ * @param <T> The type used to represent the triggers that cause state transitions
+ * @param <C> The type used to represent the context in which the state machine is being applied
+ */
 public class StateRepresentation<S, T, C> {
 
     private final S state;
@@ -41,7 +49,7 @@ public class StateRepresentation<S, T, C> {
         return result;
     }
 
-    TriggerBehaviour<S, T, C> tryFindLocalHandler(T trigger, C context/*, out TriggerBehaviour handler*/) {
+    TriggerBehaviour<S, T, C> tryFindLocalHandler(T trigger, C context) {
         List<TriggerBehaviour<S, T, C>> possible = triggerBehaviours.get(trigger);
         if (possible == null) {
             return null;
@@ -133,11 +141,12 @@ public class StateRepresentation<S, T, C> {
 
     public void addTriggerBehaviour(TriggerBehaviour<S, T, C> triggerBehaviour) {
         List<TriggerBehaviour<S, T, C>> allowed;
-        if (!triggerBehaviours.containsKey(triggerBehaviour.getTrigger())) {
+        if (triggerBehaviours.containsKey(triggerBehaviour.getTrigger())) {
+            allowed = triggerBehaviours.get(triggerBehaviour.getTrigger());
+        } else {
             allowed = new ArrayList<>();
             triggerBehaviours.put(triggerBehaviour.getTrigger(), allowed);
         }
-        allowed = triggerBehaviours.get(triggerBehaviour.getTrigger());
         allowed.add(triggerBehaviour);
     }
 
@@ -175,10 +184,10 @@ public class StateRepresentation<S, T, C> {
     public List<T> getPermittedTriggers(C context) {
         Set<T> result = new HashSet<>();
 
-        for (T t : triggerBehaviours.keySet()) {
-            for (TriggerBehaviour<S, T, C> v : triggerBehaviours.get(t)) {
+        for (Map.Entry<T, List<TriggerBehaviour<S, T, C>>> t : triggerBehaviours.entrySet()) {
+            for (TriggerBehaviour<S, T, C> v : t.getValue()) {
                 if (v.isGuardConditionMet(context)) {
-                    result.add(t);
+                    result.add(t.getKey());
                     break;
                 }
             }

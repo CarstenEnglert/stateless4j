@@ -1,14 +1,21 @@
 package com.github.oxo42.stateless4j.triggers;
 
-public class TriggerWithParameters1<TArg0, TState, TTrigger> extends TriggerWithParameters<TState, TTrigger> {
+/**
+ * Parameterised trigger for a single input argument.
+ *
+ * @param <TArg> The type of the input argument
+ * @param <S>    The type used to represent the states
+ * @param <T>    The type used to represent the triggers that cause state transitions
+ */
+public class TriggerWithParameters1<TArg, S, T> extends TriggerWithParameters<S, T> {
 
     /**
      * Create a configured trigger
      *
      * @param underlyingTrigger Trigger represented by this trigger configuration
-     * @param classe            Class argument
+     * @param classe            Class argument for the input argument
      */
-    public TriggerWithParameters1(TTrigger underlyingTrigger, Class<TArg0> classe) {
+    public TriggerWithParameters1(T underlyingTrigger, Class<TArg> classe) {
         super(underlyingTrigger, classe);
     }
 }

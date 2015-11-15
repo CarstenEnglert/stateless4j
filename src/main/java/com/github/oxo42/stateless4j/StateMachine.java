@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
  *
  * @param <S> The type used to represent the states
  * @param <T> The type used to represent the triggers that cause state transitions
+ * @param <C> The type used to represent the context in which the state machine is being applied
  */
 public class StateMachine<S, T, C> {
 
@@ -118,12 +119,12 @@ public class StateMachine<S, T, C> {
      *
      * @param trigger The trigger to fire
      * @param context The context to fire the trigger for
-     * @param arg0    The first argument
-     * @param <TArg0> Type of the first trigger argument
+     * @param arg     The argument
+     * @param <TArg> Type of the trigger argument
      */
-    public <TArg0> void fire(TriggerWithParameters1<TArg0, S, T> trigger, C context, TArg0 arg0) {
+    public <TArg> void fire(TriggerWithParameters1<TArg, S, T> trigger, C context, TArg arg) {
         assert trigger != null : "trigger is null";
-        publicFire(trigger.getTrigger(), context, arg0);
+        publicFire(trigger.getTrigger(), context, arg);
     }
 
     /**
@@ -179,7 +180,7 @@ public class StateMachine<S, T, C> {
 
         S source = getState(context);
         OutVar<S> destination = new OutVar<>();
-        if (triggerBehaviour.resultsInTransitionFrom(source, args, destination)) {
+        if (triggerBehaviour.resultsInTransitionFrom(source, context, args, destination)) {
             Transition<S, T, C> transition = new Transition<>(source, destination.get(), trigger, context);
 
             getCurrentRepresentation(context).exit(transition);
