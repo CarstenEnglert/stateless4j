@@ -5,10 +5,9 @@ package com.github.oxo42.stateless4j.triggers;
  *
  * @param <TArg0> The type of the first input argument
  * @param <TArg1> The type of the second input argument
- * @param <S>     The type used to represent the states
  * @param <T>     The type used to represent the triggers that cause state transitions
  */
-public class TriggerWithParameters2<TArg0, TArg1, S, T> extends TriggerWithParameters<S, T> {
+public class TriggerWithParameters2<TArg0, TArg1, T> extends TriggerWithParameters<T> {
 
     /**
      * Create a configured trigger

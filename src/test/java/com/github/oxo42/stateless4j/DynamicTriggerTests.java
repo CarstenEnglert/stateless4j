@@ -29,7 +29,7 @@ public class DynamicTriggerTests {
     @Test
     public void DestinationStateIsCalculatedBasedOnTriggerParameters() {
         StateMachineConfig<State, Trigger, Context> config = new StateMachineConfig<>();
-        TriggerWithParameters1<Integer, State, Trigger> trigger = config.setTriggerParameters(
+        TriggerWithParameters1<Integer, Trigger> trigger = config.setTriggerParameters(
                 Trigger.X, Integer.class);
         config.configure(State.A).permitDynamic(trigger, new Func3<Integer, Context, State>() {
             @Override

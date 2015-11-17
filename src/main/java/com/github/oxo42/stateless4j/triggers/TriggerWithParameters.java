@@ -5,10 +5,9 @@ import com.github.oxo42.stateless4j.conversion.ParameterConversion;
 /**
  * Abstract class for a parameterised trigger.
  *
- * @param <S> The type used to represent the states
  * @param <T> The type used to represent the triggers that cause state transitions
  */
-public abstract class TriggerWithParameters<S, T> {
+public abstract class TriggerWithParameters<T> {
 
     private final T underlyingTrigger;
     private final Class<?>[] argumentTypes;

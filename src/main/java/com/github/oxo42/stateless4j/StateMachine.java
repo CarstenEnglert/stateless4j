@@ -122,7 +122,7 @@ public class StateMachine<S, T, C> {
      * @param arg     The argument
      * @param <TArg> Type of the trigger argument
      */
-    public <TArg> void fire(TriggerWithParameters1<TArg, S, T> trigger, C context, TArg arg) {
+    public <TArg> void fire(TriggerWithParameters1<TArg, T> trigger, C context, TArg arg) {
         assert trigger != null : "trigger is null";
         publicFire(trigger.getTrigger(), context, arg);
     }
@@ -140,7 +140,7 @@ public class StateMachine<S, T, C> {
      * @param <TArg0> Type of the first trigger argument
      * @param <TArg1> Type of the second trigger argument
      */
-    public <TArg0, TArg1> void fire(TriggerWithParameters2<TArg0, TArg1, S, T> trigger, C context, TArg0 arg0, TArg1 arg1) {
+    public <TArg0, TArg1> void fire(TriggerWithParameters2<TArg0, TArg1, T> trigger, C context, TArg0 arg0, TArg1 arg1) {
         assert trigger != null : "trigger is null";
         publicFire(trigger.getTrigger(), context, arg0, arg1);
     }
@@ -160,14 +160,14 @@ public class StateMachine<S, T, C> {
      * @param <TArg1> Type of the second trigger argument
      * @param <TArg2> Type of the third trigger argument
      */
-    public <TArg0, TArg1, TArg2> void fire(TriggerWithParameters3<TArg0, TArg1, TArg2, S, T> trigger, C context, TArg0 arg0, TArg1 arg1, TArg2 arg2) {
+    public <TArg0, TArg1, TArg2> void fire(TriggerWithParameters3<TArg0, TArg1, TArg2, T> trigger, C context, TArg0 arg0, TArg1 arg1, TArg2 arg2) {
         assert trigger != null : "trigger is null";
         publicFire(trigger.getTrigger(), context, arg0, arg1, arg2);
     }
 
     protected void publicFire(T trigger, C context, Object... args) {
         logger.debug("Firing " + trigger);
-        TriggerWithParameters<S, T> configuration = config.getTriggerConfiguration(trigger);
+        TriggerWithParameters<T> configuration = config.getTriggerConfiguration(trigger);
         if (configuration != null) {
             configuration.validateParameters(args);
         }

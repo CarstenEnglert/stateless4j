@@ -27,7 +27,7 @@ import java.util.Map;
 public class StateMachineConfig<S, T, C> {
 
     private final Map<S, StateRepresentation<S, T, C>> stateConfiguration = new HashMap<>();
-    private final Map<T, TriggerWithParameters<S, T>> triggerConfiguration = new HashMap<>();
+    private final Map<T, TriggerWithParameters<T>> triggerConfiguration = new HashMap<>();
     
     /**
      * Return StateRepresentation for the specified state. May return null.
@@ -55,7 +55,7 @@ public class StateMachineConfig<S, T, C> {
         return result;
     }
 
-    public TriggerWithParameters<S, T> getTriggerConfiguration(T trigger) {
+    public TriggerWithParameters<T> getTriggerConfiguration(T trigger) {
         return triggerConfiguration.get(trigger);
     }
 
@@ -76,7 +76,7 @@ public class StateMachineConfig<S, T, C> {
         });
     }
 
-    private void saveTriggerConfiguration(TriggerWithParameters<S, T> trigger) {
+    private void saveTriggerConfiguration(TriggerWithParameters<T> trigger) {
         if (triggerConfiguration.containsKey(trigger.getTrigger())) {
             throw new IllegalStateException("Parameters for the trigger '" + trigger + "' have already been configured.");
         }
@@ -92,8 +92,8 @@ public class StateMachineConfig<S, T, C> {
      * @param <TArg>  Type of the first trigger argument
      * @return An object that can be passed to the fire() method in order to fire the parameterised trigger
      */
-    public <TArg> TriggerWithParameters1<TArg, S, T> setTriggerParameters(T trigger, Class<TArg> classe) {
-        TriggerWithParameters1<TArg, S, T> configuration = new TriggerWithParameters1<>(trigger, classe);
+    public <TArg> TriggerWithParameters1<TArg, T> setTriggerParameters(T trigger, Class<TArg> classe) {
+        TriggerWithParameters1<TArg, T> configuration = new TriggerWithParameters1<>(trigger, classe);
         saveTriggerConfiguration(configuration);
         return configuration;
     }
@@ -108,8 +108,8 @@ public class StateMachineConfig<S, T, C> {
      * @param <TArg1> Type of the second trigger argument
      * @return An object that can be passed to the fire() method in order to fire the parameterised trigger
      */
-    public <TArg0, TArg1> TriggerWithParameters2<TArg0, TArg1, S, T> setTriggerParameters(T trigger, Class<TArg0> classe0, Class<TArg1> classe1) {
-        TriggerWithParameters2<TArg0, TArg1, S, T> configuration = new TriggerWithParameters2<>(trigger, classe0, classe1);
+    public <TArg0, TArg1> TriggerWithParameters2<TArg0, TArg1, T> setTriggerParameters(T trigger, Class<TArg0> classe0, Class<TArg1> classe1) {
+        TriggerWithParameters2<TArg0, TArg1, T> configuration = new TriggerWithParameters2<>(trigger, classe0, classe1);
         saveTriggerConfiguration(configuration);
         return configuration;
     }
@@ -126,8 +126,8 @@ public class StateMachineConfig<S, T, C> {
      * @param <TArg2> Type of the third trigger argument
      * @return An object that can be passed to the fire() method in order to fire the parameterised trigger
      */
-    public <TArg0, TArg1, TArg2> TriggerWithParameters3<TArg0, TArg1, TArg2, S, T> setTriggerParameters(T trigger, Class<TArg0> classe0, Class<TArg1> classe1, Class<TArg2> classe2) {
-        TriggerWithParameters3<TArg0, TArg1, TArg2, S, T> configuration = new TriggerWithParameters3<>(trigger, classe0, classe1, classe2);
+    public <TArg0, TArg1, TArg2> TriggerWithParameters3<TArg0, TArg1, TArg2, T> setTriggerParameters(T trigger, Class<TArg0> classe0, Class<TArg1> classe1, Class<TArg2> classe2) {
+        TriggerWithParameters3<TArg0, TArg1, TArg2, T> configuration = new TriggerWithParameters3<>(trigger, classe0, classe1, classe2);
         saveTriggerConfiguration(configuration);
         return configuration;
     }

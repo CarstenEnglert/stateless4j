@@ -144,7 +144,7 @@ public class StateConfiguration<S, T, C> {
      * @param <TArg>      Type of the first trigger argument
      * @return The receiver
      */
-    public <TArg> StateConfiguration<S, T, C> onEntryFrom(TriggerWithParameters1<TArg, S, T> trigger, final Action2<TArg, Transition<S, T, C>> entryAction, final Class<TArg> classe) {
+    public <TArg> StateConfiguration<S, T, C> onEntryFrom(TriggerWithParameters1<TArg, T> trigger, final Action2<TArg, Transition<S, T, C>> entryAction, final Class<TArg> classe) {
         assert trigger != null : "trigger is null";
         assert entryAction != null : "entryAction is null";
         representation.addEntryAction(trigger.getTrigger(), new Action2<Transition<S, T, C>, Object[]>() {
@@ -168,7 +168,7 @@ public class StateConfiguration<S, T, C> {
      * @param <TArg1>     Type of the second trigger argument
      * @return The receiver
      */
-    public <TArg0, TArg1> StateConfiguration<S, T, C> onEntryFrom(TriggerWithParameters2<TArg0, TArg1, S, T> trigger, final Action3<TArg0, TArg1, Transition<S, T, C>> entryAction, final Class<TArg0> classe0, final Class<TArg1> classe1) {
+    public <TArg0, TArg1> StateConfiguration<S, T, C> onEntryFrom(TriggerWithParameters2<TArg0, TArg1, T> trigger, final Action3<TArg0, TArg1, Transition<S, T, C>> entryAction, final Class<TArg0> classe0, final Class<TArg1> classe1) {
         assert trigger != null : "trigger is null";
         assert entryAction != null : "entryAction is null";
         representation.addEntryAction(trigger.getTrigger(), new Action2<Transition<S, T, C>, Object[]>() {
@@ -196,7 +196,7 @@ public class StateConfiguration<S, T, C> {
      * @param <TArg2>     Type of the third trigger argument
      * @return The receiver
      */
-    public <TArg0, TArg1, TArg2> StateConfiguration<S, T, C> onEntryFrom(TriggerWithParameters3<TArg0, TArg1, TArg2, S, T> trigger, final Action4<TArg0, TArg1, TArg2, Transition<S, T, C>> entryAction, final Class<TArg0> classe0, final Class<TArg1> classe1, final Class<TArg2> classe2) {
+    public <TArg0, TArg1, TArg2> StateConfiguration<S, T, C> onEntryFrom(TriggerWithParameters3<TArg0, TArg1, TArg2, T> trigger, final Action4<TArg0, TArg1, TArg2, Transition<S, T, C>> entryAction, final Class<TArg0> classe0, final Class<TArg1> classe1, final Class<TArg2> classe2) {
         assert trigger != null : "trigger is null";
         assert entryAction != null : "entryAction is null";
         representation.addEntryAction(trigger.getTrigger(), new Action2<Transition<S, T, C>, Object[]>() {
@@ -264,7 +264,7 @@ public class StateConfiguration<S, T, C> {
      * @param <TArg>                   Type of the trigger argument
      * @return The receiver
      */
-    public <TArg> StateConfiguration<S, T, C> permitDynamic(TriggerWithParameters1<TArg, S, T> trigger, Func3<TArg, C, S> destinationStateSelector) {
+    public <TArg> StateConfiguration<S, T, C> permitDynamic(TriggerWithParameters1<TArg, T> trigger, Func3<TArg, C, S> destinationStateSelector) {
         return permitDynamicIf(trigger, destinationStateSelector, NO_GUARD);
     }
 
@@ -279,7 +279,7 @@ public class StateConfiguration<S, T, C> {
      * @return The receiver
      */
     public <TArg0, TArg1> StateConfiguration<S, T, C> permitDynamic(
-            TriggerWithParameters2<TArg0, TArg1, S, T> trigger,
+            TriggerWithParameters2<TArg0, TArg1, T> trigger,
             Func4<TArg0, TArg1, C, S> destinationStateSelector) {
         return permitDynamicIf(trigger, destinationStateSelector, NO_GUARD);
     }
@@ -295,7 +295,7 @@ public class StateConfiguration<S, T, C> {
      * @param <TArg2>                  Type of the third trigger argument
      * @return The receiver
      */
-    public <TArg0, TArg1, TArg2> StateConfiguration<S, T, C> permitDynamic(TriggerWithParameters3<TArg0, TArg1, TArg2, S, T> trigger,
+    public <TArg0, TArg1, TArg2> StateConfiguration<S, T, C> permitDynamic(TriggerWithParameters3<TArg0, TArg1, TArg2, T> trigger,
             final Func5<TArg0, TArg1, TArg2, C, S> destinationStateSelector) {
         return permitDynamicIf(trigger, destinationStateSelector, NO_GUARD);
     }
@@ -329,7 +329,7 @@ public class StateConfiguration<S, T, C> {
      * @param <TArg>                   Type of the trigger argument
      * @return The receiver
      */
-    public <TArg> StateConfiguration<S, T, C> permitDynamicIf(TriggerWithParameters1<TArg, S, T> trigger, final Func3<TArg, C, S> destinationStateSelector, FuncCondition<C> guard) {
+    public <TArg> StateConfiguration<S, T, C> permitDynamicIf(TriggerWithParameters1<TArg, T> trigger, final Func3<TArg, C, S> destinationStateSelector, FuncCondition<C> guard) {
         assert trigger != null : "trigger is null";
         assert destinationStateSelector != null : "destinationStateSelector is null";
         return publicPermitDynamicIf(
@@ -356,7 +356,7 @@ public class StateConfiguration<S, T, C> {
      * @param <TArg1>                  Type of the second trigger argument
      * @return The receiver
      */
-    public <TArg0, TArg1> StateConfiguration<S, T, C> permitDynamicIf(TriggerWithParameters2<TArg0, TArg1, S, T> trigger,
+    public <TArg0, TArg1> StateConfiguration<S, T, C> permitDynamicIf(TriggerWithParameters2<TArg0, TArg1, T> trigger,
             final Func4<TArg0, TArg1, C, S> destinationStateSelector, FuncCondition<C> guard) {
         assert trigger != null : "trigger is null";
         assert destinationStateSelector != null : "destinationStateSelector is null";
@@ -388,7 +388,7 @@ public class StateConfiguration<S, T, C> {
      * @param <TArg2>                  Type of the third trigger argument
      * @return The receiver
      */
-    public <TArg0, TArg1, TArg2> StateConfiguration<S, T, C> permitDynamicIf(TriggerWithParameters3<TArg0, TArg1, TArg2, S, T> trigger,
+    public <TArg0, TArg1, TArg2> StateConfiguration<S, T, C> permitDynamicIf(TriggerWithParameters3<TArg0, TArg1, TArg2, T> trigger,
             final Func5<TArg0, TArg1, TArg2, C, S> destinationStateSelector, FuncCondition<C> guard) {
         assert trigger != null : "trigger is null";
         assert destinationStateSelector != null : "destinationStateSelector is null";

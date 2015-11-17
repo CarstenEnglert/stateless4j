@@ -66,4 +66,29 @@ public class Transition<S, T, C> {
     public boolean isReentry() {
         return getSource().equals(getDestination());
     }
+
+    @Override
+    public int hashCode() {
+        return getSource().hashCode() * 3 + getTrigger().hashCode() * 7 + getDestination().hashCode() * 13;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof Transition)) {
+            return false;
+        }
+        Transition<?, ?, ?> otherTransition = (Transition<?, ?, ?>) other;
+        if (!getSource().equals(otherTransition.getSource())
+                || !getTrigger().equals(otherTransition.getTrigger())
+                || !getDestination().equals(otherTransition.getDestination())) {
+            return false;
+        }
+        if (getContext() == null) {
+            return otherTransition.getContext() == null;
+        }
+        return getContext().equals(otherTransition.getContext());
+    }
 }
